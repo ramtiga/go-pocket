@@ -3,6 +3,7 @@ package pocket
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -81,6 +82,11 @@ func (c *Client) PocketList(r map[string]interface{}) (ItemList, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	if res.StatusCode != 200 {
+		return nil, errors.New(fmt.Sprintf("HTTP request failed with %s", res.Status))
+	}
+
 	defer res.Body.Close()
 
 	var pocket Pocket
