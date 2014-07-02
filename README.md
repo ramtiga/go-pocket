@@ -8,17 +8,29 @@ Interface to pocket API written by golang.
 
 ## Usage:
 
-    client := pocket.NewClient("CONSUMER_KEY", "ACCESS_TOKEN")
+    import (
+            "fmt"
+            "github.com/ramtiga/go-pocket"
+            "log"
+    )
 
-    results, err := client.PocketList()
-    if err != nil {
-            log.Fatal(err)
+    func main() {
+            client := pocket.NewClient("CONSUMER_KEY", "ACCESS_TOKEN")
+
+            opt := map[string]interface{}{
+                    "Search": "iphone",
+                    "Count":  10,
+            }
+
+            results, err := client.PocketList(opt)
+            if err != nil {
+                    log.Fatal(err)
+            }
+
+            for _, res := range results {
+                    fmt.Println(res.Resolved_title)
+            }
     }
-
-    for _, res := range results {
-            fmt.Println(res.Resolved_title)
-    }
-
 
 ## Author:
 
