@@ -47,20 +47,6 @@ type Lists struct {
 	Word_count     string `json:"word_count"`
 }
 
-type RequestOption struct {
-	State       string
-	Favorite    string
-	Tag         string
-	ContentType string
-	Sort        string
-	DetailType  string
-	Search      string
-	Domain      string
-	Since       string
-	Count       int
-	Offset      int
-}
-
 func NewClient(consumer_key, access_token string) *Client {
 	return &Client{
 		consumer_key,
