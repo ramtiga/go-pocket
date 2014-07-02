@@ -3,6 +3,7 @@ package pocket
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/url"
 )
@@ -45,6 +46,20 @@ type Lists struct {
 	Word_count     string `json:"word_count"`
 }
 
+type RequestOption struct {
+	State       string
+	Favorite    string
+	Tag         string
+	ContentType string
+	Sort        string
+	DetailType  string
+	Search      string
+	Domain      string
+	Since       string
+	Count       int
+	Offset      int
+}
+
 func NewClient(consumer_key, access_token string) *Client {
 	return &Client{
 		consumer_key,
@@ -54,10 +69,12 @@ func NewClient(consumer_key, access_token string) *Client {
 	}
 }
 
-func (c *Client) PocketList() (ItemList, error) {
+func (c *Client) PocketList(r map[string]interface{}) (ItemList, error) {
 	p := url.Values{}
 	p.Set("consumer_key", c.consumer_key)
 	p.Set("access_token", c.access_token)
+
+	p = requestOption(r, p)
 
 	res, err := c.c.PostForm(c.endpoint, p)
 
@@ -73,4 +90,34 @@ func (c *Client) PocketList() (ItemList, error) {
 		return nil, err
 	}
 	return pocket.List, nil
+}
+
+func requestOption(r map[string]interface{}, p url.Values) url.Values {
+	for k, v := range r {
+		switch k {
+		case "State":
+			p.Set("state", fmt.Sprint(v))
+		case "Favorite":
+			p.Set("favorite", fmt.Sprint(v))
+		case "Tag":
+			p.Set("tag", fmt.Sprint(v))
+		case "ContentType":
+			p.Set("contentType", fmt.Sprint(v))
+		case "Sort":
+			p.Set("sort", fmt.Sprint(v))
+		case "DetailType":
+			p.Set("detailType", fmt.Sprint(v))
+		case "Search":
+			p.Set("search", fmt.Sprint(v))
+		case "Domain":
+			p.Set("domain", fmt.Sprint(v))
+		case "Since":
+			p.Set("since", fmt.Sprint(v))
+		case "Count":
+			p.Set("count", fmt.Sprint(v))
+		case "Offset":
+			p.Set("offset", fmt.Sprint(v))
+		}
+	}
+	return p
 }

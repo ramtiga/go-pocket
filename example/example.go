@@ -9,7 +9,12 @@ import (
 func main() {
 	client := pocket.NewClient("CONSUMER_KEY", "ACCESS_TOKEN")
 
-	results, err := client.PocketList()
+	opt := map[string]interface{}{
+		"Search": "iphone",
+		"Count":  10,
+	}
+
+	results, err := client.PocketList(opt)
 	if err != nil {
 		log.Fatal(err)
 	}
