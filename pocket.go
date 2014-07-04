@@ -78,6 +78,10 @@ func (c *Client) PocketList(r map[string]interface{}) (ItemList, error) {
 	var pocket Pocket
 
 	err = json.NewDecoder(res.Body).Decode(&pocket)
+	if len(pocket.List) == 0 {
+		return nil, errors.New(fmt.Sprint("no response data"))
+	}
+
 	if err != nil {
 		return nil, err
 	}
@@ -85,6 +89,7 @@ func (c *Client) PocketList(r map[string]interface{}) (ItemList, error) {
 }
 
 func requestOption(r map[string]interface{}, p url.Values) url.Values {
+
 	for k, v := range r {
 		switch k {
 		case "State":
