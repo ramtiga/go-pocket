@@ -45,6 +45,7 @@ type Lists struct {
 	Has_video      string `json:"has_video"`
 	Has_image      string `json:"has_image"`
 	Word_count     string `json:"word_count"`
+	Tag            string `json:"tag"`
 }
 
 func NewClient(consumer_key, access_token string) *Client {
