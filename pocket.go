@@ -9,8 +9,6 @@ import (
 	"net/url"
 )
 
-const EndPoint = "https://getpocket.com/v3/get"
-
 type Client struct {
 	consumer_key string
 	access_token string
@@ -52,7 +50,7 @@ func NewClient(consumer_key, access_token string) *Client {
 	return &Client{
 		consumer_key,
 		access_token,
-		EndPoint,
+		"",
 		http.DefaultClient,
 	}
 }
@@ -64,6 +62,7 @@ func (c *Client) PocketList(r map[string]interface{}) (ItemList, error) {
 
 	p = requestOption(r, p)
 
+	c.endpoint = "https://getpocket.com/v3/get"
 	res, err := c.c.PostForm(c.endpoint, p)
 
 	if err != nil {
@@ -115,6 +114,10 @@ func requestOption(r map[string]interface{}, p url.Values) url.Values {
 			p.Set("count", fmt.Sprint(v))
 		case "Offset":
 			p.Set("offset", fmt.Sprint(v))
+		case "Url":
+			p.Set("url", fmt.Sprint(v))
+		case "Title":
+			p.Set("title", fmt.Sprint(v))
 		}
 	}
 	return p
