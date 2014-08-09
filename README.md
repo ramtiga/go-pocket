@@ -1,6 +1,6 @@
 # go-pocket
 
-Interface to pocket API written by golang.
+Interface to pocket API written in Go.
 
 ## Install:
 
@@ -22,6 +22,7 @@ Interface to pocket API written by golang.
                     "Count":  10,
             }
 
+            // Get list
             results, err := client.PocketList(opt)
             if err != nil {
                     log.Fatal(err)
@@ -30,6 +31,13 @@ Interface to pocket API written by golang.
             for _, res := range results {
                     fmt.Println(res.Resolved_title)
             }
+
+            // Add Item
+            opt_add := map[string]interface{}{
+                    "Url": "http://google.co.jp",
+            }
+            err := client.AddItem(opt_add)
+
     }
 
 ## Author:
